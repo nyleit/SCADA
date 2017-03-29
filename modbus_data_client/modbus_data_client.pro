@@ -25,11 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         widget.cpp \
-    modbusdataclient.cpp \
-    modbusmessage.cpp
+    modbusdataclient.cpp
 
 HEADERS  += widget.h \
-    modbusdataclient.h \
-    modbusmessage.h
+    modbusdataclient.h
 
 FORMS    += widget.ui

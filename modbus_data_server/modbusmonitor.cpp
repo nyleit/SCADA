@@ -3,7 +3,8 @@
 #include <QDebug>
 #include <QUrl>
 
-modbusMonitor::modbusMonitor(QString u,QObject *parent) : QObject(parent),_url(u)
+modbusMonitor::modbusMonitor(QString u,QMap<QString,quint16>* m,QObject *parent)
+    : QObject(parent),_url(u),values(m)
 {
     int index = 1;
     modbusDevice = 0;
@@ -125,13 +126,8 @@ void modbusMonitor::readReady()
     if (reply->error() == QModbusDevice::NoError) {
         const QModbusDataUnit unit = reply->result();
         for (uint i = 0; i < unit.valueCount(); i++) {
-            const QString entry = tr("id: %1 type: %2 Address: %3, Value: %4")
-                    .arg(reply->serverAddress())
-                    .arg(unit.registerType())
-                    .arg(unit.startAddress()+i)
-                                     .arg(QString::number(unit.value(i),
-                                          unit.registerType() <= QModbusDataUnit::Coils ? 10 : 10));
-            qDebug() << entry;
+            modbusValuePath mod_path(_url,reply->serverAddress(),unit.registerType(),unit.startAddress()+i);
+            values->insert(mod_path.path(),unit.value(i));
         }
     } else if (reply->error() == QModbusDevice::ProtocolError) {
         qDebug() <<tr("Read response error: %1 (Mobus exception: 0x%2)").
@@ -146,15 +142,7 @@ void modbusMonitor::readReady()
     reply->deleteLater();
 }
 
-/*    enum RegisterType {
-        Invalid,
-        DiscreteInputs,
-        Coils,
-        InputRegisters,
-        HoldingRegisters
-    };
 
- */
 QModbusDataUnit modbusMonitor::readRequest(int t,int s,int c) const
 {
     const auto table =

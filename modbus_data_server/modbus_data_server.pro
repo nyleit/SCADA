@@ -11,8 +11,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     modbusdataserver.cpp \
-    modbusmessage.cpp \
-    modbusmonitor.cpp
+    modbusmonitor.cpp \
+    modbusvaluepath.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -27,5 +27,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     modbusdataserver.h \
-    modbusmessage.h \
-    modbusmonitor.h
+    modbusmonitor.h \
+    modbusvaluepath.h

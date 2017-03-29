@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <modbusdataclient.h>
-#include <modbusmessage.h>
 
 namespace Ui {
 class Widget;

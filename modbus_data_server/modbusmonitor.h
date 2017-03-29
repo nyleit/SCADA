@@ -6,6 +6,7 @@
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
 #include <QTimer>
+#include <modbusvaluepath.h>
 
 enum ModbusConnection {
     Serial,
@@ -24,7 +25,7 @@ class modbusMonitor : public QObject
 {
     Q_OBJECT
 public:
-    explicit modbusMonitor(QString,QObject *parent = 0);
+    explicit modbusMonitor(QString, QMap<QString,quint16>*m, QObject *parent = 0);
 
     void addReadRequest(int id,int type,int start,int end);
     void startMonitor();
@@ -49,6 +50,7 @@ private:
     QModbusReply *lastRequest;
     QModbusClient *modbusDevice;
     QVector<modbusDataReadRequest> readRequestTable;
+    QMap<QString,quint16> *values;
 };
 
 #endif // MODBUSMONITOR_H

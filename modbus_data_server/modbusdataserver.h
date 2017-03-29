@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <modbusmessage.h>
 #include <modbusmonitor.h>
 #include <QSettings>
+#include <modbusvaluepath.h>
 
 class ModbusDataServer : public QTcpServer
 {
@@ -21,12 +21,14 @@ public slots:
     void operateData();
     void loadModbusDevicesSettings();
 
+    void printvalues();
+
 private:
     int _port;
-    //QModbusReply *lastRequest;
     QVector<modbusMonitor *> _modbusDevices;
     QSettings* _setting;
     QVector<QTcpSocket*> _users;
+    QMap<QString,quint16> *all_modbus_values;
 };
 
 #endif // MODBUSDATASERVER_H
